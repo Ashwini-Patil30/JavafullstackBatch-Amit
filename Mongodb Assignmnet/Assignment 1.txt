@@ -1,0 +1,135 @@
+
+show databases
+
+use mongopractice
+'switched to db mongopractice'
+
+db.movies.insertMany([{title:"Fight Club",writer:"Chuck Palahniuko",year:1999,actors:["Brad Pitt","Edward Norton"]},{title:"Pulp Fiction",writer:"Quentin Tarantino",year:1994,actors:["John Travolta","Uma Thurman"]},{title:"Inglorious Basterds",written:"Quentin Tarantino",year:2009,actors:["Brad Pitt","Diane Kruger","Eli Roth"]},{title:"The Hobbit:An Unexpected Journey",writer:"J.R.R. Tolkein",year:2012,franchise:"The Hobbit"},{title:"The Hobbit:The Desolation of Smaug",writer:"J.R.R. Tolkein",year:2013,franchise:"The Hobbit"},{title:"The Hobbit:The Battle of the Five Armies",writer:"J.R.R. Tolkein",year:2012,franchise:"The Hobbit",synopsis:"Bibo and Company are forced to engage in a war against an array of combatanta and keep the Lonely Mountain from falling into the hands of a rising darkness."},{title:"Pee Wee Herman's Big Adventure"},{title:"Avatar"}])
+{ acknowledged: true,
+  insertedIds: 
+   { '0': ObjectId("61b85d45fe9204d66eef8244"),
+     '1': ObjectId("61b85d45fe9204d66eef8245"),
+     '2': ObjectId("61b85d45fe9204d66eef8246"),
+     '3': ObjectId("61b85d45fe9204d66eef8247"),
+     '4': ObjectId("61b85d45fe9204d66eef8248"),
+     '5': ObjectId("61b85d45fe9204d66eef8249"),
+     '6': ObjectId("61b85d45fe9204d66eef824a"),
+     '7': ObjectId("61b85d45fe9204d66eef824b") } }
+	 
+1) db.movies.find({})
+
+2) db.movies.aggregate([{"$match":{writer:"Quentin Tarantino"}}])
+  
+3) db.movies.aggregate([{"$match":{actors:"Brad Pitt"}}])
+  
+4) db.movies.aggregate([{"$match":{franchise:"The Hobbit"}}])
+
+5) db.movies.aggregate([{"$match":{year:{$lte:2000}}}])
+
+6) db.movies.find({$or:[{year:{$lte:2000}},{year:{$gte:2010}}]})
+
+Update Documents query:
+
+1) db.movies.update({title:"The Hobbit:An Unexpected Journey"},{$set:{synopsis:"A reluctant hobbit,Bilbo Baggins,sets out to the lonely mountain with a spirited group of dwarves to reclaim their mountain home-and the gold within it-from the dragon Smaug."}})
+
+2) db.movies.update({title:"The Desolation of Smaug"},{$set:{synopsis:"The dwarves,along with Bibo Baggins and Gandalf the Grey,continue their quest to reclaim Erebor,their homeland,from Smaug Bilbo Baggins is in possession of a mysterious and magical ring."}})
+
+3) db.movies.update({title:"Pulp Fiction"},{$set:{actors:"Sameul L.Jalson"}})
+
+
+
+Text Search:
+
+1) db.movies.find({synopsis:/Bilbo/}).pretty()
+
+2) db.movies.find({synopsis:/Gandalf/}).pretty()
+
+3) db.movies.find( {
+   $and: [
+       {synopsis:/Bilbo/} ,
+      {synopsis:{$not:/Gandalf/}}
+   ]
+} ).pretty()
+
+4) db.movies.find( {
+   $or: [
+       {synopsis:/dwarves/} ,
+      {synopsis:/hobbit/}
+   ]
+} ).pretty()
+
+5) db.movies.find( {
+   $or: [
+       {synopsis:/gold/} ,
+      {synopsis:/dragon/}
+   ]
+} ).pretty()
+
+
+ db.movies.aggregate([{$match:{$text:{$search:"dwarves hobbit"}}}])   OR
+
+ db.movies.aggregate([{$match:{$text:{$search:"gold dragon"}}}])
+
+Delete Dicumwnt query
+
+1) db.movies.remove({title:'Pee Wee Hermans big Adventure'}) OR  db.movies.deleteOne({title:"Pee Wee Herman's Big Adventur"})
+
+2) db.movies.remove({title:'Avatar'})
+
+===========================================================================
+Users Collection:
+
+use collection
+
+db.createCollection('users')
+
+db.users.insertMany([{username:"GoodGuyGreg",first_name:"GoodGuy",last_name:"Gerg"},{username:"ScumbagSteve",full_name:["first:Scumbag","last:steve"]}])
+
+db.createCollection('posts')
+
+db.posts.insertMany([{username:"GoodGuyGreg",title:"Passes out at party",body:"Wakes up early and cleans house"},{username:"GoodGuyGreg",title:"Reports a bug in your code",body:"Sends you a pull request"},{username:"ScumbagSteve",title:"Borrows something",body:"Sells it"},{username:"ScumbagSteve",title"Borrows everything",body:"The end"},{username:"ScumbagSteve",title:"Forks your repo on Github",body:"Sets to private"}])
+
+db.createCollection('comments')
+
+db.comments.insertMany([
+{
+username: "GoodGuyGreg",
+comment: "Hope you got a good deal!",
+post: ObjectId("5f44d3a148197d7749864def")
+},
+{
+username: "GoodGuyGreg",
+comment: "Don't violate the licensing agreement!",
+post: ObjectId("5f44d3a148197d7749864df0")
+},
+{
+username: "GoodGuyGreg",
+comment: "Don't violate the licensing agreement!",
+post: ObjectId("5f44d3a148197d7749864df1")
+},
+{
+username: "ScumbagSteve",
+comment: "It still isn't clean",
+post: ObjectId("5f44d3a148197d7749864dec")
+},
+{
+username: "ScumbagSteve",
+comment: "Denied your PR cause I found a hack",
+post: ObjectId("5f44d3a148197d7749864dee")
+}]);
+
+1) db.users.find() OR db.users.find().pretty()
+
+2) db.posts.find()
+
+3) db.posts.find({$username:{$search:"GoodGuyGerg"}}) OR  db.posts.find({username:'GoodGuyGreg'}).pretty()
+
+4) db.posts.find({$username:{$search:"ScumbagSteve"}})   OR  db.posts.find({username:'ScumbagSteve'}).pretty()
+
+5) db.comments.find()  OR   db.comments.find().pretty()
+
+6)db.comments.find({username:'GoodGuyGreg'}).pretty()  OR  db.comments.find({"username":"GoodGuyGreg"}).pretty()
+
+7) db.comments.find({username:'ScumbagSteve'}).pretty() OR  db.comments.find({"username":"ScumbagSteve"}).pretty()
+
+8) db.comments.find({post:'61b84cc0fa0cbe63cfd94abb'}).pretty()

@@ -1,0 +1,84 @@
+use population
+
+db.createCollection('zipcodes')
+
+mongoimport --db population --collection zipcodes --file zip.json  OR (insert manually from mongodb compass)
+==================================================================================
+Population queries
+
+1) db.zipcodes.find({city:"ATLANTA",state:"GA"})  OR   
+
+2) db.zipcodes.aggregate([{$match:{$and:[{city:"ATLANTA"},{state:"GA"}]}}])
+
+3) db.zipcodes.aggregate([
+{ $match :{city:"ATLANTA"}},
+{"$group" : {_id:"$city"}},
+{$count: "city"}
+])
+
+OR 
+db.zipcodes.aggregate([ { $match :{city:"ATLANTA"}},
+{"$group" : {_id:"$city", count: {$sum: 1}}} ])
+
+4) db.zipcodes.aggregate([ { $match :{city:"ATLANTA"}},
+{"$group" : {_id:"$city", totalPop: {$sum: "$pop"}}} ])
+
+==================================================================================
+population by state 
+
+1) db.zipcodes.aggregate([
+{"$group" : {_id:"$state", totalPop: {$sum: "$pop"}}}
+])
+
+2) db.zipcodes.aggregate([
+{"$group" : {_id:"$state", totalPop: {$sum: "$pop"}}},
+{$sort: {"_id.totalPop": -1}}
+])
+
+
+3) db.zipcodes.aggregate([
+{$limit: 3},
+{"$group" : {_id:"$state", totalPop: {$sum: "$pop"}}},
+{$sort: {"_id.totalPop": -1}}
+])
+=======================================================================================
+
+population by city
+
+1) db.zipcodes.aggregate([
+{"$group" : {_id:{city: "$city",state: "$state"}, totalPop: {$sum: "$pop"}}}
+])
+
+2) db.zipcodes.aggregate([
+{"$group" : {_id:{city: "$city",state: "$state"}, totalPop: {$sum: "$pop"}}},
+{$sort: {"_id.totalPop": -1}}
+])
+
+
+3) db.zipcodes.aggregate([
+{$limit: 3},
+{"$group" : {_id:{city: "$city",state: "$state"}, totalPop: {$sum: "$pop"}}},
+{$sort: {"_id.totalPop": -1}}
+])
+
+
+4) 
+db.zipcodes.aggregate([
+{$limit: 3},
+{ $match :{city:"Texas"}},
+{"$group" : {_id:{city: "$city",state: "$state"}, totalPop: {$sum: "$pop"}}},
+{$sort: {"_id.totalPop": -1}}
+])
+==========================================================================================
+
+Bonus
+
+1) db.zipcodes.aggregate([
+{"$group" : {_id:"$state", avgPop: {$avg: "$pop"}}}
+])
+
+2) db.zipcodes.aggregate([
+{$limit: 3},
+{"$group" : {_id:"$state", avgPop: {$avg: "$pop"}}},
+{$sort: {"_id.avgPop": -1}}
+])
