@@ -1,0 +1,46 @@
+( assignment 2 git branching)
+
+
+mkdir Assignments
+cd Assignments
+touch README.txt
+git status
+git commit -m "created & updated readme.txt"
+git add.
+git status
+git commit -m "added readme.txt"
+git status
+git branch html-assignment
+git status
+git add .
+git commit -m "added html files to assign folder"
+git status
+git checkout html-assignment
+ls
+git commit -m "added html files to html-assignment branch"
+touch contact.html
+git status
+git commit -m "done changes/added html files to html-assignment branch"
+git add .
+git commit -m "done changes/added html files to html-assignment branch"
+ls
+git checkout master
+ls
+git status
+git add .
+git status
+git commit -m "done minor changes in readme file of master"
+git status
+git checkout html-assignment
+touch  change.html
+git status
+git add .
+git status
+git commit -m "added change.html file to html-assignment branch"
+git status
+ls
+git checkout master
+ls
+git merge master html-assignment
+ls
+git branch -d html-assignment
