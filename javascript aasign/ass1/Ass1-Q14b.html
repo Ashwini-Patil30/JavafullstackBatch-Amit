@@ -1,0 +1,39 @@
+<html>
+<head>
+</head>
+<body>
+<script>
+     
+function CountingEvenOdd(arr, arr_size)
+{
+    let even_count = 0;
+    let odd_count = 0;
+ 
+    // loop to read all the values in the array
+    for (let i = 0; i < arr_size; i++) {
+         
+        // checking if a number is completely
+        // divisible by 2
+        if (arr[i] & 1 == 1)
+            odd_count++;
+        else
+            even_count++;
+    }
+ 
+    document.write("Number of even elements = " + even_count
+        + "<br>" + "Number of odd elements = " + odd_count);
+}
+ 
+// Driver Code
+ 
+    let arr =[3 , 6, 2, 56, 32, 5, 89, 32];
+    let n = arr.length;
+     
+    // Function Call
+    CountingEvenOdd(arr, n);
+ 
+// This code is contributed by Mayank Tyagi
+ 
+    </script>
+    </body>
+</html>
