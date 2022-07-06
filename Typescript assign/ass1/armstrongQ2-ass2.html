@@ -1,0 +1,55 @@
+<html>
+    <body>
+        <script>
+        
+
+
+int number=153 , originalNumber, remainder, result = 0;
+
+        originalNumber = number;
+
+        while (originalNumber != 0)
+        {
+
+            {
+            remainder = originalNumber % 10;
+            result += Math.pow(remainder, 3);
+            originalNumber /= 10;
+            }
+        }
+
+        if(result == number)
+            System.out.println(number + " is an Armstrong number.");
+            
+            </script>
+    </body>
+</html>
+
+
+ const armstrong = {
+  [Symbol.iterator]() {
+   let number=153 , originalNumber, remainder, result = 0;
+ originalNumber = number;
+    return {
+      next() {
+        // The next line performs parallel assignment using destructuring.
+        // It is equivalent to value = n1; n1 = n2; n2 = n1 + n2;
+        [value, n1, n2] = [n1, n2, n1 + n2];
+ 
+        // The next line is equivalent to return {value: value};
+        return {value};
+      }
+    };
+  }
+};
+ 
+// Note that "let" could be used in place of "const" on the next line,
+// but "const" is more correct here because each iteration
+// gets a new binding for the loop variable n
+// and it is not modified in the loop body.
+for (const n of fibonacci) {
+  if (n > 100) break;
+  console.log(n);
+    document.write("," +n);
+  // outputs 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, and 89
+}
