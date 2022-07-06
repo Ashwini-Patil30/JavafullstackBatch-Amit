@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Class Method</h2>
+
+<p>How to define and use a Class method.</p>
+
+<p id="demo"></p>
+
+<script>
+class Order {
+  constructor(id, title,price) {
+    this.id = id;
+    this.title = title;
+      this.price = price;
+
+  }
+  printprice() {
+    //let date = new Date();
+    return this.price;
+  }
+    
+    getprice()
+    {
+        return this.title;
+    }
+    
+}
+
+let myorder = new Order(1,"Ford", 2014);
+let myorder2 = new Order(1,"Ford",2011);
+    
+    var new_obj = Object.assign({}, myorder,myorder2);
+    document.write(new_obj);
+//document.getElementById("demo").innerHTML ="My car is " + myorder.printprice() + " years old.";
+    
+</script>
+
+</body>
+</html>
