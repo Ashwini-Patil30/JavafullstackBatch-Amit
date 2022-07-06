@@ -1,0 +1,26 @@
+/* Bordered form */
+form {
+  border: 3px solid #f1f1f1;
+background-color:#ccffff;
+}
+
+/* Center the avatar image inside this container */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+}
+
+/* Avatar image */
+img.avatar {
+  width: 10%;
+  border-radius: 60%;
+}
+
+
+
+p1{
+ text-align: center;
+color :red;
+font-family: "Times New Roman", Times, serif;
+}
+
